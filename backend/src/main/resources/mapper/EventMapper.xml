@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    EventMapper.java 인터페이스와 연결합니다.
+    주의: namespace는 반드시 인터페이스의 FQCN(Full Qualified Class Name)과 일치해야 합니다.
+-->
+<mapper namespace="com.musicCommunity.mapper.EventMapper">
+
+    <!--
+        EventDto에 매핑할 결과를 정의합니다.
+        resultMap을 사용하여 DB의 snake_case 컬럼명을 DTO의 camelCase 필드명에 정확히 매핑합니다.
+    -->
+    <resultMap id="eventDtoResultMap" type="com.musicCommunity.dto.EventDto">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="venue" column="venue" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+
+        <result property="runtimeMinutes" column="runtime_minutes" />
+        <result property="ageRestriction" column="age_restriction" />
+        <result property="posterUrl" column="poster_url" />
+        <result property="description" column="description" />
+
+        <result property="totalSeats" column="total_seats" />
+        <result property="status" column="status" />
+        <result property="availableSeats" column="availableSeats" />
+    </resultMap>
+
+    <!--
+        findAllEvents: 모든 Event 레코드를 조회하는 쿼리
+        - 현재는 간단히 event 테이블의 모든 컬럼을 조회합니다.
+        - 추후 예매 로직이 추가되면 잔여 좌석 계산을 위한 서브쿼리가 추가될 수 있습니다.
+    -->
+
+    <!--
+      findAllEvents: 모든 Event 레코드를 조회하고, 잔여 좌석을 SQL 쿼리 내에서 계산합니다.
+      LEFT JOIN과 GROUP BY를 사용하여 단일 쿼리로 이벤트 목록과 잔여 좌석 수를 가져옵니다.
+  -->
+    <select id="findAllEvents" resultMap="eventDtoResultMap">
+        SELECT
+        e.id,
+        e.title,
+        e.venue,
+        e.start_date,
+        e.end_date,
+        e.runtime_minutes,   e.age_restriction,   e.poster_url,        e.total_seats,
+        e.status,
+        e.description,       (e.total_seats - COALESCE(COUNT(r.event_id), 0)) AS availableSeats
+        FROM
+        event e
+        LEFT JOIN
+        reservation r ON e.id = r.event_id
+        GROUP BY
+        e.id,
+        e.title,
+        e.venue,
+        e.start_date,
+        e.end_date,
+        e.runtime_minutes,   e.age_restriction,   e.poster_url,        e.total_seats,
+        e.status,
+        e.description        ORDER BY
+        e.start_date ASC
+    </select>
+
+    <insert id="insertEvent" useGeneratedKeys="true" keyProperty="id" parameterType="com.musicCommunity.domain.Event">
+        INSERT INTO event (
+        title,
+        venue,
+        start_date,
+        end_date,
+        runtime_minutes,
+        age_restriction,
+        poster_url,
+        total_seats,
+        description,
+        status
+        )
+        VALUES (
+        #{title},
+        #{venue},
+        #{startDate},
+        #{endDate},
+        #{runtimeMinutes},
+        #{ageRestriction},
+        #{posterUrl},
+        #{totalSeats},
+        #{description},
+        #{status}
+        )
+    </insert>
+
+    <update id="updateEventStatus">
+        UPDATE event
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

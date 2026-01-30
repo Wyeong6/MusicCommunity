@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.musicCommunity.mapper.EventReviewMapper">
+
+    <insert id="save" parameterType="com.musicCommunity.dto.EventReviewDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO event_reviews (user_id, event_id, title, content, rating)
+        VALUES (#{userId}, #{eventId}, #{title}, #{content}, #{rating})
+    </insert>
+
+    <select id="findAll" resultType="com.musicCommunity.dto.EventReviewDto">
+        SELECT
+        r.id,
+        r.user_id AS userId,
+        r.event_id AS eventId,
+        r.title,
+        r.content,
+        r.rating,
+        r.view_count AS viewCount,
+        r.created_at AS createdAt,
+        u.nickname,
+        u.user_login_id AS userLoginId,  e.title AS eventTitle
+        FROM event_reviews r
+        JOIN users u ON r.user_id = u.id
+        JOIN event e ON r.event_id = e.id
+        ORDER BY r.created_at DESC
+    </select>
+
+    <select id="findById" resultType="com.musicCommunity.dto.EventReviewDto">
+        SELECT
+        r.id,
+        r.user_id AS userId,
+        r.event_id AS eventId,
+        r.title,
+        r.content,
+        r.rating,
+        r.view_count AS viewCount,
+        r.created_at AS createdAt,
+        u.nickname,
+        u.user_login_id AS userLoginId,  e.title AS eventTitle
+        FROM event_reviews r
+        JOIN users u ON r.user_id = u.id
+        JOIN event e ON r.event_id = e.id
+        WHERE r.id = #{id}
+    </select>
+
+    <update id="updateViewCount">
+        UPDATE event_reviews
+        SET view_count = view_count + 1
+        WHERE id = #{id}
+    </update>
+
+    <select id="countCompletedReservation" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation
+        WHERE user_id = #{userId}
+        AND event_id = #{eventId}
+        AND status = 'COMPLETE'
+    </select>
+
+    <update id="update">
+        UPDATE event_reviews
+        SET title = #{title},
+        content = #{content},
+        rating = #{rating},
+        updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM event_reviews WHERE id = #{id}
+    </delete>
+
+</mapper>

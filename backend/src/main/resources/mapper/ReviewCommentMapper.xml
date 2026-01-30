@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.musicCommunity.mapper.ReviewCommentMapper">
+
+    <select id="selectCommentsByReviewId" resultType="com.musicCommunity.dto.ReviewCommentDto">
+        SELECT
+        c.id,
+        c.review_id as reviewId,
+        c.user_id as userId,
+        u.nickname,
+        u.user_login_id as userLoginId,
+        c.content,
+        c.created_at as createdAt
+        FROM review_comments c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.review_id = #{reviewId}
+        ORDER BY c.created_at ASC
+    </select>
+
+    <insert id="insertComment" parameterType="com.musicCommunity.dto.ReviewCommentDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO review_comments (review_id, user_id, content)
+        VALUES (#{reviewId}, #{userId}, #{content})
+    </insert>
+
+    <delete id="deleteComment">
+        DELETE FROM review_comments WHERE id = #{id}
+    </delete>
+
+    <select id="selectCommentById" resultType="com.musicCommunity.dto.ReviewCommentDto">
+        SELECT * FROM review_comments WHERE id = #{id}
+    </select>
+
+    <update id="updateComment" parameterType="com.musicCommunity.dto.ReviewCommentDto">
+        UPDATE review_comments
+        SET content = #{content},
+        updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+</mapper>

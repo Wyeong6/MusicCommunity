@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.musicCommunity.mapper.UserMapper">
+
+    <insert id="save" parameterType="com.musicCommunity.dto.UserDto">
+        INSERT INTO users (user_login_id, password, nickname, role)
+        VALUES (#{userLoginId}, #{password}, #{nickname}, #{role})
+    </insert>
+
+
+    <select id="findByUsername" parameterType="string" resultType="com.musicCommunity.dto.UserDto">
+        SELECT id, user_login_id, password, nickname, role
+        FROM users
+        WHERE user_login_id = #{userLoginId}
+    </select>
+
+    <select id="findById" parameterType="long" resultType="com.musicCommunity.dto.UserDto">
+        SELECT id, user_login_id, password, nickname, role
+        FROM users
+        WHERE id = #{id}
+    </select>
+    
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE users
+        SET
+        nickname = #{nickname},
+        password = #{password}  WHERE id = #{id}
+    </update>
+
+</mapper>
