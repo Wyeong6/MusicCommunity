@@ -219,7 +219,7 @@ const handleRestoreEvent = (eventId) => changeEventStatus(eventId, 'ACTIVE');
       {/* --------------------- 1. 새 이벤트 등록 섹션 --------------------- */}
       <section className="bg-white p-6 rounded-xl shadow-2xl mb-10">
         <h2 className="text-2xl font-bold text-indigo-700 flex items-center mb-6 border-b pb-2">
-          <PlusCircle className="w-6 h-6 mr-2" /> 새 이벤트 등록 (DTO 필드명 맞춤)
+          <PlusCircle className="w-6 h-6 mr-2" /> 새 이벤트 등록
         </h2>
         <form onSubmit={handleAddEvent} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
          

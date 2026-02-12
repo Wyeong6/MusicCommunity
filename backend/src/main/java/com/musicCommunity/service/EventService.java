@@ -7,6 +7,8 @@ import com.musicCommunity.dto.EventDto;
 import com.musicCommunity.mapper.EventMapper;
 import com.musicCommunity.mapper.SeatMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +35,9 @@ public class EventService {
      * DB에 저장된 모든 Event 목록을 조회합니다.
      * @return EventDto 리스트
      */
+    // value: 캐시 이름, key: 캐시 내에서 식별자
+    @Cacheable(value = "events", key = "'all_list'")
     public List<EventDto> findAllEvents() {
-        // EventMapper를 호출하여 DB 쿼리를 실행하고 결과를 DTO 리스트로 받습니다.
         return eventMapper.findAllEvents();
     }
 
@@ -48,6 +51,7 @@ public class EventService {
         return seatMapper.findSeatsByEventId(eventId);
     }
 
+    @CacheEvict(value = "events", key = "'all_list'")
     @Transactional
     public EventDto createEvent(EventDto eventDto) {
 
@@ -116,6 +120,7 @@ public class EventService {
         System.out.println("이벤트 ID " + eventId + "에 대해 " + totalSeats + "개의 좌석이 생성되었습니다.");
     }
 
+    @CacheEvict(value = "events", key = "'all_list'") // 상태가 바뀌었으니(ACTIVE->CANCELED) 캐시 삭제
     @Transactional
     public boolean updateEventStatus(Long eventId, String status) {
         // 1. 매퍼를 호출하여 해당 ID의 status를 'CANCELED'로 변경

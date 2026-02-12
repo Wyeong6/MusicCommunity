@@ -1,61 +1,61 @@
 {
-  "hash": "50eb2435",
-  "configHash": "d744d0de",
-  "lockfileHash": "6f614a01",
-  "browserHash": "95d5844c",
+  "hash": "2dfc2f58",
+  "configHash": "742abe29",
+  "lockfileHash": "fbaf9f5b",
+  "browserHash": "4e57d75e",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "7d880895",
+      "fileHash": "c74494ad",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "0db0e8d3",
+      "fileHash": "1a30bb24",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "2ea50487",
+      "fileHash": "227a32a6",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "83c88af1",
+      "fileHash": "590bc35c",
       "needsInterop": true
+    },
+    "@portone/browser-sdk/v2": {
+      "src": "../../node_modules/@portone/browser-sdk/dist/v2.js",
+      "file": "@portone_browser-sdk_v2.js",
+      "fileHash": "fc95fe6d",
+      "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "c0c6d52e",
+      "fileHash": "9357a190",
       "needsInterop": false
     },
     "lucide-react": {
       "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
       "file": "lucide-react.js",
-      "fileHash": "3611c1f5",
+      "fileHash": "27c9d580",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "b8d85f02",
+      "fileHash": "b338f62f",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.mjs",
       "file": "react-router-dom.js",
-      "fileHash": "7a2d7b2d",
-      "needsInterop": false
-    },
-    "@portone/browser-sdk/v2": {
-      "src": "../../node_modules/@portone/browser-sdk/dist/v2.js",
-      "file": "@portone_browser-sdk_v2.js",
-      "fileHash": "278a0df2",
+      "fileHash": "ebe658e4",
       "needsInterop": false
     }
   },

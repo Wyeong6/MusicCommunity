@@ -62,6 +62,7 @@ CREATE TABLE reservation (
     reservation_date TIMESTAMP NOT NULL, -- 예매 확정 시간
     status VARCHAR(50) NOT NULL, -- 예매 상태 (예: 'COMPLETE', 'CANCELLED')
     total_price DECIMAL(10, 2) NOT NULL,
+    UNIQUE KEY uk_seat_id (seat_id),
     -- ON DELETE CASCADE 옵션 제거하여 데이터 보존
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (event_id) REFERENCES event(id),

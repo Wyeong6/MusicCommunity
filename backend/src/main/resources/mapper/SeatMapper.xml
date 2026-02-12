@@ -37,12 +37,12 @@
     <select id="selectSeatById" resultMap="SeatResultMap">
         SELECT
         id,
-        price,
-        is_reserved
+        event_id,    seat_code,   price,
+        is_reserved,
+        reservation_id
         FROM seat
         WHERE id = #{seatId}
     </select>
-
     <!--
         findAllByEventId: 특정 이벤트의 모든 좌석을 조회 (예약 상태와 무관)
     -->
@@ -97,7 +97,6 @@
         reservation_id = #{reservationId}
         WHERE
         id = #{id}
-        AND is_reserved = FALSE
     </update>
 
     <insert id="insertSeat" useGeneratedKeys="true" keyProperty="id">
